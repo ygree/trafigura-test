@@ -7,17 +7,10 @@ class PlacementGeneratorSpec extends FlatSpec with Matchers {
   import PlacementsGenerator._
   import Figure._
 
-  "PlacementGenerator" should "excludeFollowingDups" in {
-    excludeFollowingDups(Nil) should be (Nil)
-    excludeFollowingDups(List(K)) should be (List(K))
-    excludeFollowingDups(List(K,B,B,Q,K)) should be (List(K,B,Q))
-  }
-
   "PlacementGenerator" should "generateUniquePlacements" in {
-//    generateUniquePlacements(Array()) should be (List(Nil))
-    generateUniquePlacements(Array(K)) should be (List(List(K)))
-    generateUniquePlacements(Array(K,K)) should be (List(List(K,K)))
-    generateUniquePlacements(Array(K,Q)) should be (List(List(K,Q), List(Q,K)))
+    generateUniquePlacements(List()) should be (Set(Nil))
+    generateUniquePlacements(List(K)) should be (Set(List(K)))
+    generateUniquePlacements(List(K,K)) should be (Set(List(K,K)))
+    generateUniquePlacements(List(K,Q)) should be (Set(List(K,Q), List(Q,K)))
   }
-
 }
