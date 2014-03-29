@@ -14,7 +14,7 @@ class PlacementGeneratorSpec extends FlatSpec with Matchers {
   }
   
   "PlacementGenerator" should "be albe to generate many combinations" in {
-    val result = generateUniquePlacements(List(K,K,Q,B,R,N))
+    val result = generateUniquePlacements(List(N,K,K,K,K,Q,B,R,N))
     result.size should be (360)
   }
 }
