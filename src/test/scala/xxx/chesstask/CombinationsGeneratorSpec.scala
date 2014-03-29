@@ -52,7 +52,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     def apply(): Combination = new Combination({ case _ => true })
   }
   
-  def countAllowedCombinations(availablePositions: Seq[Coords], figures: List[Figure], combination: Combination = Combination()): Int = {
+  def countAllowedCombinations(availablePositions: List[Coords], figures: List[Figure], combination: Combination = Combination()): Int = {
     figures match {
       case Nil =>
         combination.print()
@@ -62,7 +62,8 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 	    val a = for {
 	      p <- availablePositions //.toSeq.sortWith(_ < _)
 	      newCombination <- combination.place(p, f)
-	      newAvailablePosition = availablePositions filter (p < _)
+	      newAvailablePosition = availablePositions dropWhile (_ < p)
+//	      newAvailablePosition = availablePositions filter (p < _)
 //	      _ = println("p>" + p)
 //	      _ = println("a>" + newAvailablePosition.toSeq.sortWith(_ < _))
 	    } yield countAllowedCombinations(newAvailablePosition, restFigures, newCombination)
@@ -102,7 +103,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     
     countAllowedCombinations(generateCoordinates(2, 3), List(K, K)) should be (4)
 //    countAllowedCombinations(generateCoordinates(3, 3).toSet, List(K)) should be (9)
-//    countAllowedCombinations(generateCoordinates(3, 3).toSet, List(K, K)) should be (15)
+    countAllowedCombinations(generateCoordinates(3, 3), List(K, K)) should be (16)
     
 //    generateCombinations(coords, 1, _ => true).size should be (54)
     
