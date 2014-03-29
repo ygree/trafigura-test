@@ -1,6 +1,10 @@
 package xxx.chesstask
 
 import org.scalatest._
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Await
+import java.util.Date
 
 class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
@@ -64,10 +68,10 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     def apply(): Combination = new Combination(alwaysTrue)
   }
   
-  def countAllowedCombinations(availablePositions: List[Coords], figures: List[Figure], combination: Combination = Combination()): Int = {
+  def countAllowedCombinations(availablePositions: List[Coords], figures: List[Figure], combination: Combination = Combination()): Long = {
     figures match {
       case Nil =>
-        combination.print()
+//        combination.print()
         1
     		  
       case f :: restFigures =>
@@ -83,13 +87,23 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     }
   }
   
-  def countAllAllowedDistinctCombinations(positions: List[Coords], figures: List[Figure]): Int = {
+  def countAllAllowedDistinctCombinations(positions: List[Coords], figures: List[Figure]): Long = {
     val result = generateUniquePlacements(figures).toSeq map { uniqueFigureCombination =>
       countAllowedCombinations(positions, uniqueFigureCombination)
     }
     result.sum
   }
 
+  def countAllAllowedDistinctCombinationsPar(positions: List[Coords], figures: List[Figure]): Long = {
+    import scala.concurrent.duration._
+    import ExecutionContext.Implicits.global
+	  val result = generateUniquePlacements(figures).toSeq map { uniqueFigureCombination =>
+	  Future(countAllowedCombinations(positions, uniqueFigureCombination))
+	  }
+	  val future = Future.sequence(result).map(_.sum)
+	  Await.result(future, Duration.Inf)
+  }
+  
   "Test generating combinations" should "" in {
     
     rookThretens(Coords(0, 2))(Coords(0, 0)) should be (true)
@@ -133,5 +147,10 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     countAllowedCombinations(generateCoordinates(2, 3), List(R, R)) should be (6)
 
     countAllAllowedDistinctCombinations(generateCoordinates(3, 3), List(K, K, R)) should be (4)
+    
+    val startAt = System.currentTimeMillis()
+    countAllAllowedDistinctCombinationsPar(generateCoordinates(9, 8), List(K, K, R, R, R)) // should be (4)
+    val endAt = System.currentTimeMillis()
+    println("total time (sec):"+(endAt-startAt)/1000)
   }
 }
