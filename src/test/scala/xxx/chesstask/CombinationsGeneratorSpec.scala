@@ -38,7 +38,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
       case p if isThretensFun(f, fpos)(p) => false
   }
   
-  class Combination private (checkIfAllowedPosition: CheckPosition, pos: Set[Coords] = Set()) {
+  class Combination private (checkIfAllowedPosition: CheckPosition, pos: List[Coords] = Nil, figures: List[Figure] = Nil) {
     def place(c: Coords, f: Figure): Option[Combination] =
       if (!checkIfAllowedPosition(c)) {//} || !pos.exists( checkIfPossitionNotUnderThreten(f, c) orElse { case _ => true })) {
 //        println("when " + pos + " => rejected: " + c)
@@ -46,16 +46,17 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
       }
 //      else if (pos.exists(rookThretens(c))) None
       else if (pos.exists(p => !(isSafetyPositionFun(f, c) orElse Combination.alwaysTrue)(p))) None
+//      else if (pos.nonEmpty && pos.forall(p => (isSafetyPositionFun(f, c) orElse Combination.alwaysTrue)(p))) None
 //      else if (pos.forall(isSafetyPositionFun(f, c) orElse { case _ => true })) None
       else {
 //        val positionTakenFun: CheckPosition = { case `c` => false }
 //        		val newFun = checkIfPossitionNotUnderThreten(f, c) orElse positionTakenFun orElse checkIfAllowedPosition
         //checkIfPossitionNotUnderThreten
         val newFun = isSafetyPositionFun(f, c) orElse checkIfAllowedPosition
-        Some(new Combination(newFun, pos + c))
+        Some(new Combination(newFun, c:: pos, f :: figures))
       }
     
-    def print() = println("found combination: " + pos)
+    def print() = println("found combination " + pos.reverse + " for " + figures.reverse)
   }
   
   object Combination {
@@ -122,19 +123,15 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     
 //    countAllowedCombinations(generateCoordinates(1, 2).toSet, List(K)) should be (2)
 //    countAllowedCombinations(generateCoordinates(2, 2).toSet, List(K, K)) should be (0)
-//    generateCoordinates(2, 3).toSet.filter(Coords(0,2) < _) should be (Set())
 //    
-//    countAllowedCombinations(generateCoordinates(2, 3), List(K, K)) should be (4)
+    countAllowedCombinations(generateCoordinates(2, 3), List(K, K)) should be (4)
 //    countAllowedCombinations(generateCoordinates(3, 3).toSet, List(K)) should be (9)
 
-//    countAllowedCombinations(generateCoordinates(3, 3), List(K, K)) should be (16)
+    countAllowedCombinations(generateCoordinates(3, 3), List(K, K)) should be (16)
 //    
-//    countAllowedCombinations(generateCoordinates(2, 2), List(R, R)) should be (2)
-//    countAllowedCombinations(generateCoordinates(2, 3), List(R, R)) should be (6)
+    countAllowedCombinations(generateCoordinates(2, 2), List(R, R)) should be (2)
+    countAllowedCombinations(generateCoordinates(2, 3), List(R, R)) should be (6)
 
     countAllAllowedDistinctCombinations(generateCoordinates(3, 3), List(K, K, R)) should be (4)
-    
-//    generateCombinations(coords, 1, _ => true).size should be (54)
-    
   }
 }
