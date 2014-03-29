@@ -20,36 +20,47 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   type CheckPosition = PartialFunction[Coords, Boolean]
   
   def kingThretens(fpos: Coords) = { p: Coords => 
-    (Math.abs(fpos.m - p.m) <= 1) && (Math.abs(fpos.n - p.n) <= 1)
+    (Math.abs(fpos.m - p.m) < 2) && (Math.abs(fpos.n - p.n) < 2)
   }
   
-  def checkIfPossitionNotUnderThreten(f: Figure, fpos: Coords): CheckPosition = {
-    val isThretensFun = f match {
-      case K => kingThretens(fpos) 
+  def rookThretens(fpos: Coords) = { p: Coords =>
+    fpos.m == p.m || fpos.n == p.n
+  }
+
+  def isThretensFun(f: Figure, fpos: Coords) = f match {
+      case K => kingThretens(fpos)
+      case R => rookThretens(fpos)
     }
-    {
-      case p if isThretensFun(p) => false
-    }
+  
+//  def isPositionSafety(f: Figure, fpos: Coords): Boolean = isThretensFun(f, fpos)
+  
+  def isSafetyPositionFun(f: Figure, fpos: Coords): CheckPosition = {
+      case p if isThretensFun(f, fpos)(p) => false
   }
   
   class Combination private (checkIfAllowedPosition: CheckPosition, pos: Set[Coords] = Set()) {
     def place(c: Coords, f: Figure): Option[Combination] =
-      if (!checkIfAllowedPosition(c)) {
-        println("when " + pos + " => rejected: " + c)
+      if (!checkIfAllowedPosition(c)) {//} || !pos.exists( checkIfPossitionNotUnderThreten(f, c) orElse { case _ => true })) {
+//        println("when " + pos + " => rejected: " + c)
         None 
       }
+//      else if (pos.exists(rookThretens(c))) None
+      else if (pos.exists(p => !(isSafetyPositionFun(f, c) orElse Combination.alwaysTrue)(p))) None
+//      else if (pos.forall(isSafetyPositionFun(f, c) orElse { case _ => true })) None
       else {
 //        val positionTakenFun: CheckPosition = { case `c` => false }
-//        		val newFun = checkIfPossitionUnderThreten(f, c) orElse positionTakenFun orElse checkIfAllowedPosition
-        val newFun = checkIfPossitionNotUnderThreten(f, c) orElse checkIfAllowedPosition
+//        		val newFun = checkIfPossitionNotUnderThreten(f, c) orElse positionTakenFun orElse checkIfAllowedPosition
+        //checkIfPossitionNotUnderThreten
+        val newFun = isSafetyPositionFun(f, c) orElse checkIfAllowedPosition
         Some(new Combination(newFun, pos + c))
       }
     
-    def print() = println(pos)
+    def print() = println("found combination: " + pos)
   }
   
   object Combination {
-    def apply(): Combination = new Combination({ case _ => true })
+    val alwaysTrue: CheckPosition = { case _ => true }
+    def apply(): Combination = new Combination(alwaysTrue)
   }
   
   def countAllowedCombinations(availablePositions: List[Coords], figures: List[Figure], combination: Combination = Combination()): Int = {
@@ -59,7 +70,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
         1
     		  
       case f :: restFigures =>
-	    val a = for {
+	    val result = for {
 	      p <- availablePositions //.toSeq.sortWith(_ < _)
 	      newCombination <- combination.place(p, f)
 	      newAvailablePosition = availablePositions dropWhile (_ < p)
@@ -67,11 +78,23 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 //	      _ = println("p>" + p)
 //	      _ = println("a>" + newAvailablePosition.toSeq.sortWith(_ < _))
 	    } yield countAllowedCombinations(newAvailablePosition, restFigures, newCombination)
-	    a.sum
+	    result.sum
     }
+  }
+  
+  def countAllAllowedDistinctCombinations(positions: List[Coords], figures: List[Figure]): Int = {
+    val result = generateUniquePlacements(figures).toSeq map { uniqueFigureCombination =>
+      countAllowedCombinations(positions, uniqueFigureCombination)
+    }
+    result.sum
   }
 
   "Test generating combinations" should "" in {
+    
+    rookThretens(Coords(0, 2))(Coords(0, 0)) should be (true)
+    
+    Combination().place(Coords(0, 0), K).get.place(Coords(0, 2), R) should be (None)
+    
     
     (Coords(0, 0) < Coords(1, 0)) should be (true)
     (Coords(0, 0) < Coords(0, 1)) should be (true)
@@ -100,10 +123,16 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 //    countAllowedCombinations(generateCoordinates(1, 2).toSet, List(K)) should be (2)
 //    countAllowedCombinations(generateCoordinates(2, 2).toSet, List(K, K)) should be (0)
 //    generateCoordinates(2, 3).toSet.filter(Coords(0,2) < _) should be (Set())
-    
-    countAllowedCombinations(generateCoordinates(2, 3), List(K, K)) should be (4)
+//    
+//    countAllowedCombinations(generateCoordinates(2, 3), List(K, K)) should be (4)
 //    countAllowedCombinations(generateCoordinates(3, 3).toSet, List(K)) should be (9)
-    countAllowedCombinations(generateCoordinates(3, 3), List(K, K)) should be (16)
+
+//    countAllowedCombinations(generateCoordinates(3, 3), List(K, K)) should be (16)
+//    
+//    countAllowedCombinations(generateCoordinates(2, 2), List(R, R)) should be (2)
+//    countAllowedCombinations(generateCoordinates(2, 3), List(R, R)) should be (6)
+
+    countAllAllowedDistinctCombinations(generateCoordinates(3, 3), List(K, K, R)) should be (4)
     
 //    generateCombinations(coords, 1, _ => true).size should be (54)
     
