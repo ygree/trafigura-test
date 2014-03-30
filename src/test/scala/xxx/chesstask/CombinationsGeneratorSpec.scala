@@ -13,15 +13,6 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   import Position._
 //  import PositionOrdering.mkOrderingOps
 
-  def generateCoordinates(m: Int, n: Int): List[Position] =
-    for (i <- (0 until m).toList; j <- 0 until n) yield (i, j)
-
-  "Test generating coordinates" should "" in {
-    val result = generateCoordinates(6, 9)
-    result.size should be(6 * 9)
-    result.size should be(result.toSet.size)
-  }
-
 
   type CheckPosition = PartialFunction[Position, Boolean]
 
@@ -148,19 +139,19 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
     //    countAllowedCombinations(generateCoordinates(1, 2).toSet, List(K)) should be (2)
     //    countAllowedCombinations(generateCoordinates(2, 2).toSet, List(K, K)) should be (0)
     //
-    countAllowedCombinations(generateCoordinates(2, 3), List(K, K)) should be(4)
+    countAllowedCombinations(allPositionsOrdered(2, 3), List(K, K)) should be(4)
     //    countAllowedCombinations(generateCoordinates(3, 3).toSet, List(K)) should be (9)
 
-    countAllowedCombinations(generateCoordinates(3, 3), List(K, K)) should be(16)
+    countAllowedCombinations(allPositionsOrdered(3, 3), List(K, K)) should be(16)
     //
-    countAllowedCombinations(generateCoordinates(2, 2), List(R, R)) should be(2)
-    countAllowedCombinations(generateCoordinates(2, 3), List(R, R)) should be(6)
+    countAllowedCombinations(allPositionsOrdered(2, 2), List(R, R)) should be(2)
+    countAllowedCombinations(allPositionsOrdered(2, 3), List(R, R)) should be(6)
 
-    countAllAllowedDistinctCombinations(generateCoordinates(3, 3), List(K, K, R)) should be(4)
+    countAllAllowedDistinctCombinations(allPositionsOrdered(3, 3), List(K, K, R)) should be(4)
 
     val startAt = System.currentTimeMillis()
     //    countAllAllowedDistinctCombinationsPar(generateCoordinates(10, 8), List(K, K, R, R, R, K)) // should be (4)
-    countAllAllowedDistinctCombinations(generateCoordinates(6, 9), List(K, K, R, R, R, K)) // should be (4)
+    countAllAllowedDistinctCombinations(allPositionsOrdered(6, 9), List(K, K, R, R, R, K)) // should be (4)
     val endAt = System.currentTimeMillis()
     println("total time (sec):" + (endAt - startAt) / 1000)
   }
