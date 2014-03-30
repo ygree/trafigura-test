@@ -1,4 +1,6 @@
-package xxx.chesstask
+package xxx.chesstask.impl
+
+import xxx.chesstask.{Combination, FigurePlacementFinder}
 
 class FigurePlacementCounter extends FigurePlacementFinder[Long] {
 

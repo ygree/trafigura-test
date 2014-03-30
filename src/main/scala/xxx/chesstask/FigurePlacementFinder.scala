@@ -1,6 +1,7 @@
 package xxx.chesstask
 
-import xxx.chesstask.Position._
+import model.{Figure, Position}
+import Position._
 
 trait FigurePlacementFinder[T] {
 

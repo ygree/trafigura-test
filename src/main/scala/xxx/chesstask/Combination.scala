@@ -1,5 +1,6 @@
 package xxx.chesstask
 
+import model._
 import Position._
 
 trait Combination {

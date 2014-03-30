@@ -1,7 +1,10 @@
-package xxx.chesstask
+package xxx.chesstask.impl
 
 import CombinationByFun._
+import xxx.chesstask.model.{Figure, Position}
 import Position._
+import scala.Some
+import xxx.chesstask.Combination
 
 class CombinationByFunCheckOnly(
   allowedPositionFun: CheckPosition = alwaysTrue,

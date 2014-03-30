@@ -1,6 +1,7 @@
-package xxx.chesstask
+package xxx.chesstask.impl
 
 import org.scalatest._
+import xxx.chesstask.model.Figure
 
 class PlacementsGeneratorSpec extends FlatSpec with Matchers {
 

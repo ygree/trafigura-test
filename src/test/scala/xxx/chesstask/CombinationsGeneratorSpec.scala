@@ -4,6 +4,8 @@ import org.scalatest._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Await
+import xxx.chesstask.impl.{CombinatorFinderOnFutures, CombinatorFinderSequential, FigurePlacementCounter}
+import xxx.chesstask.model.{Position, Figure}
 
 class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   import Figure._
@@ -15,11 +17,11 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
 
   def countAllAllowedDistinctCombinations(positions: List[Position], figures: List[Figure]): Long = {
-    new CombinatorFinderSequentialAll().count(positions, figures)(new FigurePlacementCounter)
+    new CombinatorFinderSequential().find(positions, figures)(new FigurePlacementCounter)
   }
 
   def countAllAllowedDistinctCombinationsPar(positions: List[Position], figures: List[Figure]): Long = {
-    new CombinatorFinderConcurrentAll().count(positions, figures)(new FigurePlacementCounter)
+    new CombinatorFinderOnFutures().find(positions, figures)(new FigurePlacementCounter)
   }
 
   "Test generating combinations" should "" in {

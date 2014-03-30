@@ -1,6 +1,7 @@
-package xxx.chesstask
+package xxx.chesstask.impl
 
 import org.scalatest.{Matchers, FlatSpec}
+import xxx.chesstask.model.Figure
 
 class CombinationSpec extends FlatSpec with Matchers {
   import Figure._

@@ -1,6 +1,7 @@
-package xxx.chesstask
+package xxx.chesstask.model
 
-import xxx.chesstask.Position._
+import xxx.chesstask.model.Position
+import Position._
 import scala.Some
 import org.scalatest.matchers.{MatchResult, Matcher}
 

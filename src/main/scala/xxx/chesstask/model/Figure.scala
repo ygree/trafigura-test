@@ -1,4 +1,4 @@
-package xxx.chesstask
+package xxx.chesstask.model
 
 import Position._
 

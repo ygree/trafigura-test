@@ -1,4 +1,6 @@
-package xxx.chesstask
+package xxx.chesstask.impl
+
+import xxx.chesstask.model.Figure
 
 object PlacementsGenerator {
 

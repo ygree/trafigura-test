@@ -1,7 +1,7 @@
-package xxx.chesstask
+package xxx.chesstask.model
 
 import org.scalatest._
-import xxx.chesstask.Position._
+import Position._
 
 class PositionSpec extends FlatSpec with Matchers {
 
