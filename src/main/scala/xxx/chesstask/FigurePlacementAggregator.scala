@@ -3,7 +3,7 @@ package xxx.chesstask
 import model.{Figure, Position}
 import Position._
 
-trait FigurePlacementFinder[T] {
+trait FigurePlacementAggregator[T] {
 
   def emptyCombination: Combination
 

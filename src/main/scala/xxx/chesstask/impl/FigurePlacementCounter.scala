@@ -1,8 +1,8 @@
 package xxx.chesstask.impl
 
-import xxx.chesstask.{Combination, FigurePlacementFinder}
+import xxx.chesstask.{Combination, FigurePlacementAggregator}
 
-class FigurePlacementCounter extends FigurePlacementFinder[Long] {
+class FigurePlacementCounter extends FigurePlacementAggregator[Long] {
 
   def emptyCombination: Combination = new CombinationByFun()
 

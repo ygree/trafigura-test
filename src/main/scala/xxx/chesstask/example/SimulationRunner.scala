@@ -1,10 +1,10 @@
 package xxx.chesstask.example
 
 import xxx.chesstask.impl.FigurePlacementCounter
-import xxx.chesstask.model.Position._
-import xxx.chesstask.model.Figure._
 import xxx.chesstask.CombinationFinder
-import xxx.chesstask.model.Figure
+import xxx.chesstask.model._
+import Position._
+import Figure._
 
 class SimulationRunner(combinationFinder: CombinationFinder)(
   positions: List[Position] = allPositionsOrdered(6, 9),
