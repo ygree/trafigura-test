@@ -1,51 +1,47 @@
 package xxx.chesstask
 
 import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.matchers.{MatchResult, Matcher}
 
 class FigureSpec extends FlatSpec with Matchers {
 
   import Figure._
   import PositionMap._
 
-  def checkPositions(figure: Figure, positions: PositionMap): Unit = {
-    val figureAt = figure at positions.figurePosition
-    println(s"figureAt: ${positions.figurePosition}")
-    for (p <- positions.threatenedPositions) {
-      figureAt threatens p should be (true)
-    }
-    for (p <- positions.safetyPositions) {
-      println(p)
-      figureAt threatens p should be (false)
+  def matchMap(positionMap: PositionMap) = new Matcher[Figure] {
+    def apply(figure: Figure): MatchResult = {
+      positionMap.figurePositionOpt map { figurePosition =>
+        val figurePlaced = figure at figurePosition
+        val shouldBeThreatened = for (p <- positionMap.threatenedPositions.toSeq if !(figurePlaced threatens p)) yield p
+        val shouldBeSafe = for (p <- positionMap.safePositions.toSeq if figurePlaced threatens p) yield p
+        val msgs = Seq(
+          if (shouldBeThreatened.isEmpty) None
+          else Some(shouldBeThreatened.mkString("Should be 'X' threatened: ", ", ", "")),
+          if (shouldBeSafe.isEmpty) None
+          else Some(shouldBeSafe.mkString("Should be 'O' safe: ", ", ", ""))
+        ).flatten.mkString("\n")
+        MatchResult(msgs.isEmpty, msgs, "")
+      } getOrElse MatchResult(false, "Figure position 'F' not specified", "")
     }
   }
 
-  "King" should "threaten to certain positions" in {
-    K at (0, 0) threatens (1, 2) should be (false)
+  "King" should "match map" in {
+    K should matchMap (
+      O.O.O.O.O ~
+      O.X.X.X.O ~
+      O.X.F.X.O ~
+      O.X.X.X.O ~
+      O.O.O.O.O
+    )
+  }
 
-
-    val pm =
-    O.O.O.O.O ~
-    O.X.X.X.O ~
-    O.X.F.X.O ~
-    O.X.X.X.O ~
-    O.O.O.O.O
-
-    checkPositions(K, pm)
-
-//    kingThretens((0, 0))((1, 2)) should be(false)
-//
-//    kingThretens((1, 1))((0, 0)) should be(true)
-//    kingThretens((1, 1))((0, 1)) should be(true)
-//    kingThretens((1, 1))((0, 2)) should be(true)
-//
-//    kingThretens((1, 1))((1, 0)) should be(true)
-//    //    kingThretens(Coords(1,1))(Coords(1,1)) should be (false)
-//    kingThretens((1, 1))((1, 2)) should be(true)
-//
-//    kingThretens((1, 1))((2, 0)) should be(true)
-//    kingThretens((1, 1))((2, 1)) should be(true)
-//    kingThretens((1, 1))((2, 2)) should be(true)
-//
-//    kingThretens((1, 1))((1, 3)) should be(false)
+  "Rook" should "match map" in {
+    R should matchMap (
+      O.O.O.O.O ~
+      O.X.X.X.O ~
+      O.X.F.X.O ~
+      O.X.X.X.O ~
+      O.O.O.O.O
+    )
   }
 }

@@ -33,9 +33,11 @@ class PositionMap {
     this
   }
 
+  def figurePositionOpt: Option[Position] = figure
+
   def figurePosition: Position = figure getOrElse (throw new AssertionError("Figure has not been placed!"))
 
-  def safetyPositions: Set[Position] = safety
+  def safePositions: Set[Position] = safety
 
   def threatenedPositions: Set[Position] = threatened
 
