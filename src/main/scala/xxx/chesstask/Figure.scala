@@ -14,7 +14,6 @@ trait FigurePlaced {
 }
 
 object Figure {
-
   val K = King
   val Q = Queen
   val B = Bishop
@@ -36,7 +35,11 @@ object Figure {
   }
 
   case object Knight extends Figure {
-    def threatensFun(fpos: Position) = ???
+    def threatensFun(fpos: Position) = p => {
+      val d1 = abs(fpos._1 - p._1)
+      val d2 = abs(fpos._2 - p._2)
+      (d1, d2) == (1, 2) || (d1, d2) == (2, 1)
+    }
   }
 
   case object Rook extends Figure {

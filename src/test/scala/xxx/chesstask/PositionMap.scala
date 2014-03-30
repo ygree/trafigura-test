@@ -2,6 +2,7 @@ package xxx.chesstask
 
 import xxx.chesstask.Position._
 import scala.Some
+import org.scalatest.matchers.{MatchResult, Matcher}
 
 class PositionMap {
   private var current: Position = (0, 0)
@@ -56,4 +57,21 @@ class PositionMap {
 object PositionMap {
   def o: PositionMap = new PositionMap().o
   def X: PositionMap = new PositionMap().X
+
+  def matchMap(positionMap: PositionMap) = new Matcher[Figure] {
+    def apply(figure: Figure): MatchResult = {
+      positionMap.figurePositionOpt map { figurePosition =>
+        val figurePlaced = figure at figurePosition
+        val shouldBeThreatened = for (p <- positionMap.threatenedPositions.toSeq if !(figurePlaced threatens p)) yield p
+        val shouldBeSafe = for (p <- positionMap.safePositions.toSeq if figurePlaced threatens p) yield p
+        val msgs = Seq(
+          if (shouldBeThreatened.isEmpty) None
+          else Some(shouldBeThreatened.mkString("Should be 'X' threatened: ", ", ", "")),
+          if (shouldBeSafe.isEmpty) None
+          else Some(shouldBeSafe.mkString("Should be 'o' safe: ", ", ", ""))
+        ).flatten.mkString("\n")
+        MatchResult(msgs.isEmpty, msgs, "")
+      } getOrElse MatchResult(false, "Figure position 'F' not specified", "")
+    }
+  }
 }
