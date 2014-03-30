@@ -35,6 +35,16 @@ class FigureSpec extends FlatSpec with Matchers {
     )
   }
 
+  "Queen" should "match map" in {
+    Queen should matchMap (
+      X.o.X.o.X ~
+      o.X.X.X.o ~
+      X.X.F.X.X ~
+      o.X.X.X.o ~
+      X.o.X.o.X
+    )
+  }
+
   "Bishop" should "match map" in {
     Bishop should matchMap (
       X.o.o.o.X ~
