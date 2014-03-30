@@ -34,9 +34,7 @@ class PositionMap {
     this
   }
 
-  def figurePositionOpt: Option[Position] = figure
-
-  def figurePosition: Position = figure getOrElse (throw new AssertionError("Figure has not been placed!"))
+  def figurePosition: Option[Position] = figure
 
   def safePositions: Set[Position] = safety
 
@@ -60,7 +58,7 @@ object PositionMap {
 
   def matchMap(positionMap: PositionMap) = new Matcher[Figure] {
     def apply(figure: Figure): MatchResult = {
-      positionMap.figurePositionOpt map { figurePosition =>
+      positionMap.figurePosition map { figurePosition =>
         val figurePlaced = figure at figurePosition
         val shouldBeThreatened = for (p <- positionMap.threatenedPositions.toSeq if !(figurePlaced threatens p)) yield p
         val shouldBeSafe = for (p <- positionMap.safePositions.toSeq if figurePlaced threatens p) yield p
