@@ -10,7 +10,7 @@ class PositionSpec extends FlatSpec with Matchers {
     (2, 1) < (1, 5) should be (false)
   }
 
-  "Position" should "generate all possible unique ordered positions for specified dimentions" in {
+  "Position" should "generate all possible unique ordered positions for specified capacity" in {
     val result = allPositionsOrdered(6, 9)
     result.size should be (6 * 9)
     result.size should be (result.toSet.size)
