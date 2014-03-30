@@ -94,7 +94,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   }
 
   def countAllAllowedDistinctCombinations(positions: List[Position], figures: List[Figure]): Long = {
-    val result = PlacementsGenerator(figures).generateUniquePlacements.toSeq map {
+    val result = PlacementsGenerator(figures).uniquePlacements.toSeq map {
       uniqueFigureCombination =>
         countAllowedCombinations(positions, uniqueFigureCombination)
     }
@@ -104,7 +104,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   def countAllAllowedDistinctCombinationsPar(positions: List[Position], figures: List[Figure]): Long = {
     import scala.concurrent.duration._
     import ExecutionContext.Implicits.global
-    val result = PlacementsGenerator(figures).generateUniquePlacements.toSeq map {
+    val result = PlacementsGenerator(figures).uniquePlacements.toSeq map {
       uniqueFigureCombination =>
         Future(countAllowedCombinations(positions, uniqueFigureCombination))
     }

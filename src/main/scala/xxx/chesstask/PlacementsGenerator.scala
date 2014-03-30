@@ -10,24 +10,24 @@ object PlacementsGenerator {
   }
 }
 
-class PlacementsGenerator(figureToNumber: Map[Figure, Int]) {
-  def generateUniquePlacements: Set[List[Figure]] =
-    uniqueSymbols match {
+class PlacementsGenerator(figuresPool: Map[Figure, Int]) {
+  def uniquePlacements: Set[List[Figure]] =
+    uniqueFigures match {
       case s if s.isEmpty => Set(Nil)
       case availableUniqueSymbols =>
         for {
           e <- availableUniqueSymbols
-          tail <- excludeOne(e).generateUniquePlacements
+          tail <- excludeOne(e).uniquePlacements
         } yield e :: tail
     }
 
-  def uniqueSymbols: Set[Figure] = figureToNumber.keySet
+  def uniqueFigures: Set[Figure] = figuresPool.keySet
 
   def excludeOne(f: Figure): PlacementsGenerator = {
-    val number = figureToNumber(f)
+    val number = figuresPool(f)
     new PlacementsGenerator(
-      if (number > 1) figureToNumber.updated(f, number - 1)
-      else figureToNumber - f
+      if (number > 1) figuresPool.updated(f, number - 1)
+      else figuresPool - f
     )
   }
 }
