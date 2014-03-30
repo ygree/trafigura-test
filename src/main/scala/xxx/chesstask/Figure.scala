@@ -27,26 +27,26 @@ object Figure {
   }
 
   case object Queen extends Figure {
-    def at(kingsPosition: Position) = new FigurePlaced {
-      def threatens(checkingPosition: Position): Boolean = ???
+    def at(fpos: Position) = new FigurePlaced {
+      def threatens(p: Position): Boolean = ???
     }
   }
 
   case object Bishop extends Figure {
-    def at(kingsPosition: Position) = new FigurePlaced {
-      def threatens(checkingPosition: Position): Boolean = ???
+    def at(fpos: Position) = new FigurePlaced {
+      def threatens(p: Position): Boolean = ???
     }
   }
 
   case object Knight extends Figure {
-    def at(kingsPosition: Position) = new FigurePlaced {
-      def threatens(checkingPosition: Position): Boolean = ???
+    def at(fpos: Position) = new FigurePlaced {
+      def threatens(p: Position): Boolean = ???
     }
   }
 
   case object Rook extends Figure {
-    def at(kingsPosition: Position) = new FigurePlaced {
-      def threatens(checkingPosition: Position): Boolean = ???
+    def at(fpos: Position) = new FigurePlaced {
+      def threatens(p: Position) = fpos._1 == p._1 || fpos._2 == p._2
     }
   }
 }

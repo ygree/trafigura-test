@@ -27,21 +27,21 @@ class FigureSpec extends FlatSpec with Matchers {
 
   "King" should "match map" in {
     K should matchMap (
-      O.O.O.O.O ~
-      O.X.X.X.O ~
-      O.X.F.X.O ~
-      O.X.X.X.O ~
-      O.O.O.O.O
+      o.o.o.o.o ~
+      o.X.X.X.o ~
+      o.X.F.X.o ~
+      o.X.X.X.o ~
+      o.o.o.o.o
     )
   }
 
   "Rook" should "match map" in {
     R should matchMap (
-      O.O.O.O.O ~
-      O.X.X.X.O ~
-      O.X.F.X.O ~
-      O.X.X.X.O ~
-      O.O.O.O.O
+      o.o.X.o.o ~
+      o.o.X.o.o ~
+      X.X.F.X.X ~
+      o.o.X.o.o ~
+      o.o.X.o.o
     )
   }
 }

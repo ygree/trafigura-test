@@ -9,7 +9,7 @@ class PositionMap {
   private var threatened: Set[Position] = Set()
   private var figure: Option[Position] = None
 
-  def O: PositionMap = {
+  def o: PositionMap = {
     safety += current
     incrementColumn
   }
@@ -54,6 +54,6 @@ class PositionMap {
 }
 
 object PositionMap {
-  def O: PositionMap = new PositionMap().O
+  def o: PositionMap = new PositionMap().o
   def X: PositionMap = new PositionMap().X
 }

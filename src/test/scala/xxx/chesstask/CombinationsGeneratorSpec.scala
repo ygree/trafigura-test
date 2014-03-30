@@ -19,8 +19,8 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   }
 
   def rookThretens(fpos: Position) = {
-    p: Position =>
-      fpos._1 == p._1 || fpos._2 == p._2
+    p: Position => R.at(fpos).threatens(p)
+
   }
 
   def isThretensFun(f: Figure, fpos: Position) = f match {
