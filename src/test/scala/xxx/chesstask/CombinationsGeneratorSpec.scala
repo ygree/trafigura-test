@@ -10,69 +10,12 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   import Figure._
   import Position._
 
-  type CheckPosition = PartialFunction[Position, Boolean]
-
-  def kingThretens(fpos: Position) = {
-    K.threatensAt(fpos)
-
-
-  }
-
-  def rookThretens(fpos: Position) = {
-    R.threatensAt(fpos)
-
-  }
-
-  def isThretensFun(f: Figure, fpos: Position) = f match {
-    case K => kingThretens(fpos)
-    case R => rookThretens(fpos)
-  }
-
-  //  def isPositionSafety(f: Figure, fpos: Coords): Boolean = isThretensFun(f, fpos)
-
-  def isSafetyPositionFun(f: Figure, fpos: Position): CheckPosition = {
-    case p if isThretensFun(f, fpos)(p) => false
-  }
-
-  class Combination private(checkIfAllowedPosition: CheckPosition, pos: List[Position] = Nil, figures: List[Figure] = Nil) {
-    def place(c: Position, f: Figure): Option[Combination] =
-      if (!checkIfAllowedPosition(c)) {
-        //} || !pos.exists( checkIfPossitionNotUnderThreten(f, c) orElse { case _ => true })) {
-        //        println("when " + pos + " => rejected: " + c)
-        None
-      }
-      //      else if (pos.exists(rookThretens(c))) None
-      else if (pos.exists(p => !(isSafetyPositionFun(f, c) orElse Combination.alwaysTrue)(p))) None
-      //      else if (pos.nonEmpty && pos.forall(p => (isSafetyPositionFun(f, c) orElse Combination.alwaysTrue)(p))) None
-      //      else if (pos.forall(isSafetyPositionFun(f, c) orElse { case _ => true })) None
-      else {
-        //        val positionTakenFun: CheckPosition = { case `c` => false }
-        //        		val newFun = checkIfPossitionNotUnderThreten(f, c) orElse positionTakenFun orElse checkIfAllowedPosition
-        //checkIfPossitionNotUnderThreten
-        val newFun = isSafetyPositionFun(f, c) orElse checkIfAllowedPosition
-        Some(new Combination(newFun, c :: pos, f :: figures))
-      }
-
-    def print() = println("found combination " + pos.reverse + " for " + figures.reverse)
-  }
-
-  object Combination {
-    val alwaysTrue: CheckPosition = {
-      case _ => true
-    }
-
-    def apply(): Combination = new Combination(alwaysTrue)
-  }
-
   def countAllowedCombinations(availablePositions: List[Position], figures: List[Figure], combination: Combination = Combination()): Long = {
     figures match {
-      case Nil =>
-        //        combination.print()
-        1
-
+      case Nil => 1
       case f :: restFigures =>
         val result = for {
-          p <- availablePositions //.toSeq.sortWith(_ < _)
+          p <- availablePositions
           newCombination <- combination.place(p, f)
           newAvailablePosition = availablePositions dropWhile (_ < p)
         //	      newAvailablePosition = availablePositions filter (p < _)
@@ -103,11 +46,6 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   }
 
   "Test generating combinations" should "" in {
-
-    rookThretens((0, 2))((0, 0)) should be(true)
-
-    Combination().place((0, 0), K).get.place((0, 2), R) should be(None)
-
 
     //    countAllowedCombinations(generateCoordinates(1, 1).toSet, Nil) should be (1)
     //    countAllowedCombinations(generateCoordinates(1, 1).toSet, List(K)) should be (1)
