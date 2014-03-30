@@ -1,3 +1,8 @@
+/*
+ * (c) 2014, Gribkov Yury
+ * http://linkedin.com/in/ygribkov/
+ */
+
 package xxx.chesstask.impl
 
 import CombinationByFun._
