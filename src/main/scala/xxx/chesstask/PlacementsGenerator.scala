@@ -1,28 +1,29 @@
 package xxx.chesstask
 
 object PlacementsGenerator {
-  
-  def generateUniquePlacements(ss: List[Figure]): Set[List[Figure]] =
-    Symbols.generateUniquePlacements(Symbols(ss))
-  
-  private object Symbols{
-    def generateUniquePlacements(ss: Symbols): Set[List[Figure]] =
-      ss.uniqueSymbols match {
+
+  def generateUniquePlacements(figures: List[Figure]): Set[List[Figure]] =
+    Symbols.generateUniquePlacements(Symbols(figures))
+
+  private object Symbols {
+    def generateUniquePlacements(symbols: Symbols): Set[List[Figure]] =
+      symbols.uniqueSymbols match {
         case s if s.isEmpty => Set(Nil)
-        case availableUniqueSymbols  =>
-	      for {
-	        e <- availableUniqueSymbols
-	        tail <- generateUniquePlacements(ss excludeOne e)
-	      } yield e :: tail
+        case availableUniqueSymbols =>
+          for {
+            e <- availableUniqueSymbols
+            tail <- generateUniquePlacements(symbols excludeOne e)
+          } yield e :: tail
       }
+
     def apply(figures: Seq[Figure]): Symbols = {
-      val figureToNumber = figures.groupBy(identity) map { 
+      val figureToNumber = figures.groupBy(identity) map {
         case (k, v) => (k, v.size)
       }
       new Symbols(figureToNumber)
     }
   }
-  
+
   private class Symbols(figureToNumber: Map[Figure, Int]) {
     def excludeOne(f: Figure): Symbols = {
       val number = figureToNumber(f)
@@ -31,6 +32,7 @@ object PlacementsGenerator {
         else figureToNumber - f
       )
     }
+
     def uniqueSymbols: Set[Figure] = figureToNumber.keySet
   }
 }
