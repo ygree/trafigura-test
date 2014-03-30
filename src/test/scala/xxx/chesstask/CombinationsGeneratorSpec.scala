@@ -10,6 +10,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
   import PlacementsGenerator._
   import Figure._
+  import Position._
 //  import PositionOrdering.mkOrderingOps
 
   def generateCoordinates(m: Int, n: Int): List[Position] =
