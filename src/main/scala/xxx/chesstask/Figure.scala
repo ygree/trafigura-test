@@ -34,7 +34,7 @@ object Figure {
 
   case object Bishop extends Figure {
     def at(fpos: Position) = new FigurePlaced {
-      def threatens(p: Position): Boolean = ???
+      def threatens(p: Position): Boolean = abs(fpos._1 - p._1) == abs(fpos._2 - p._2)
     }
   }
 

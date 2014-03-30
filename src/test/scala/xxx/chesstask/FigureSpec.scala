@@ -18,7 +18,7 @@ class FigureSpec extends FlatSpec with Matchers {
           if (shouldBeThreatened.isEmpty) None
           else Some(shouldBeThreatened.mkString("Should be 'X' threatened: ", ", ", "")),
           if (shouldBeSafe.isEmpty) None
-          else Some(shouldBeSafe.mkString("Should be 'O' safe: ", ", ", ""))
+          else Some(shouldBeSafe.mkString("Should be 'o' safe: ", ", ", ""))
         ).flatten.mkString("\n")
         MatchResult(msgs.isEmpty, msgs, "")
       } getOrElse MatchResult(false, "Figure position 'F' not specified", "")
@@ -26,7 +26,7 @@ class FigureSpec extends FlatSpec with Matchers {
   }
 
   "King" should "match map" in {
-    K should matchMap (
+    King should matchMap (
       o.o.o.o.o ~
       o.X.X.X.o ~
       o.X.F.X.o ~
@@ -35,8 +35,18 @@ class FigureSpec extends FlatSpec with Matchers {
     )
   }
 
+  "Bishop" should "match map" in {
+    Bishop should matchMap (
+      X.o.o.o.X ~
+      o.X.o.X.o ~
+      o.o.F.o.o ~
+      o.X.o.X.o ~
+      X.o.o.o.X
+    )
+  }
+
   "Rook" should "match map" in {
-    R should matchMap (
+    Rook should matchMap (
       o.o.X.o.o ~
       o.o.X.o.o ~
       X.X.F.X.X ~
