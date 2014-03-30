@@ -10,7 +10,7 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   import Figure._
   import Position._
 
-  def countAllowedCombinations(availablePositions: List[Position], figures: List[Figure], combination: Combination = Combination()): Long = {
+  def countAllowedCombinations(availablePositions: List[Position], figures: List[Figure], combination: Combination = new CombinationOnFunCheckOnly()): Long = {
     figures match {
       case Nil => 1
       case f :: restFigures =>
