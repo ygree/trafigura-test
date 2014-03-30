@@ -59,9 +59,9 @@ object PositionMap {
   def matchMap(positionMap: PositionMap) = new Matcher[Figure] {
     def apply(figure: Figure): MatchResult = {
       positionMap.figurePosition map { figurePosition =>
-        val figurePlaced = figure at figurePosition
-        val shouldBeThreatened = for (p <- positionMap.threatenedPositions.toSeq if !(figurePlaced threatens p)) yield p
-        val shouldBeSafe = for (p <- positionMap.safePositions.toSeq if figurePlaced threatens p) yield p
+        val threatensFun = figure threatensAt figurePosition
+        val shouldBeThreatened = for (p <- positionMap.threatenedPositions.toSeq if !threatensFun(p)) yield p
+        val shouldBeSafe = for (p <- positionMap.safePositions.toSeq if threatensFun(p)) yield p
         val msgs = Seq(
           if (shouldBeThreatened.isEmpty) None
           else Some(shouldBeThreatened.mkString("Should be 'X' threatened: ", ", ", "")),

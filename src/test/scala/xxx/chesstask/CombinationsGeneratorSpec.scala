@@ -13,13 +13,13 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   type CheckPosition = PartialFunction[Position, Boolean]
 
   def kingThretens(fpos: Position) = {
-    p: Position => K.at(fpos).threatens(p)
+    K.threatensAt(fpos)
 
 
   }
 
   def rookThretens(fpos: Position) = {
-    p: Position => R.at(fpos).threatens(p)
+    R.threatensAt(fpos)
 
   }
 
