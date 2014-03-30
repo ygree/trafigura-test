@@ -1,17 +1,52 @@
 package xxx.chesstask
 
-trait Figure
+import Position._
+
+trait Figure {
+  def at(figurePosition: Position): FigurePlaced
+}
+
+trait FigurePlaced {
+  def threatens(checkingPosition: Position): Boolean
+}
 
 object Figure {
 
-  case object K extends Figure
+  val K = King
+  val Q = Queen
+  val B = Bishop
+  val N = Knight
+  val R = Rook
 
-  case object Q extends Figure
+  import Math.abs
 
-  case object B extends Figure
+  case object King extends Figure {
+    def at(fpos: Position) = new FigurePlaced {
+      def threatens(p: Position) = (abs(fpos._1 - p._1) < 2) && (abs(fpos._2 - p._2) < 2)
+    }
+  }
 
-  case object N extends Figure
+  case object Queen extends Figure {
+    def at(kingsPosition: Position) = new FigurePlaced {
+      def threatens(checkingPosition: Position): Boolean = ???
+    }
+  }
 
-  case object R extends Figure
+  case object Bishop extends Figure {
+    def at(kingsPosition: Position) = new FigurePlaced {
+      def threatens(checkingPosition: Position): Boolean = ???
+    }
+  }
 
+  case object Knight extends Figure {
+    def at(kingsPosition: Position) = new FigurePlaced {
+      def threatens(checkingPosition: Position): Boolean = ???
+    }
+  }
+
+  case object Rook extends Figure {
+    def at(kingsPosition: Position) = new FigurePlaced {
+      def threatens(checkingPosition: Position): Boolean = ???
+    }
+  }
 }

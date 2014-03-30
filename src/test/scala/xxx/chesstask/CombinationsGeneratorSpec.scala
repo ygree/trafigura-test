@@ -4,21 +4,18 @@ import org.scalatest._
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Await
-import java.util.Date
 
 class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
-  import PlacementsGenerator._
   import Figure._
   import Position._
-//  import PositionOrdering.mkOrderingOps
-
 
   type CheckPosition = PartialFunction[Position, Boolean]
 
   def kingThretens(fpos: Position) = {
-    p: Position =>
-      (Math.abs(fpos._1 - p._1) < 2) && (Math.abs(fpos._2 - p._2) < 2)
+    p: Position => K.at(fpos).threatens(p)
+
+
   }
 
   def rookThretens(fpos: Position) = {
@@ -111,27 +108,6 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
     Combination().place((0, 0), K).get.place((0, 2), R) should be(None)
 
-
-    ((0, 0) < (1, 0)) should be(true)
-    ((0, 0) < (0, 1)) should be(true)
-    ((1, 0) < (0, 1)) should be(false)
-    ((1, 1) < (1, 0)) should be(false)
-
-    kingThretens((0, 0))((1, 2)) should be(false)
-
-    kingThretens((1, 1))((0, 0)) should be(true)
-    kingThretens((1, 1))((0, 1)) should be(true)
-    kingThretens((1, 1))((0, 2)) should be(true)
-
-    kingThretens((1, 1))((1, 0)) should be(true)
-    //    kingThretens(Coords(1,1))(Coords(1,1)) should be (false)
-    kingThretens((1, 1))((1, 2)) should be(true)
-
-    kingThretens((1, 1))((2, 0)) should be(true)
-    kingThretens((1, 1))((2, 1)) should be(true)
-    kingThretens((1, 1))((2, 2)) should be(true)
-
-    kingThretens((1, 1))((1, 3)) should be(false)
 
     //    countAllowedCombinations(generateCoordinates(1, 1).toSet, Nil) should be (1)
     //    countAllowedCombinations(generateCoordinates(1, 1).toSet, List(K)) should be (1)
