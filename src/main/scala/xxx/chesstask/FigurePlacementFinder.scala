@@ -21,7 +21,7 @@ trait FigurePlacementFinder[T] {
         val result = for {
           p <- availableOrderedPositions
           newCombination <- combination.place(p, f)
-          newAvailablePosition = availableOrderedPositions dropWhile (_ < p)
+          newAvailablePosition = availableOrderedPositions dropWhile (_ <= p)
         } yield find(newAvailablePosition, restFigures, newCombination)
         fold(result)
     }

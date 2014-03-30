@@ -4,8 +4,8 @@ import xxx.chesstask.{CombinationFinder, FigurePlacementFinder}
 import xxx.chesstask.model.Figure
 import scala.concurrent.{Await, Future, ExecutionContext}
 
-class CombinatorFinderSequential extends CombinationFinder {
-  def find[T](positions: List[(Int, Int)], figures: List[Figure])(finder: FigurePlacementFinder[T]): T = {
+class CombinationFinderSequential extends CombinationFinder {
+  def find[T](finder: FigurePlacementFinder[T])(positions: List[(Int, Int)], figures: List[Figure]): T = {
     val result = PlacementsGenerator(figures).uniquePlacements.toSeq map { uniqueFigureCombination =>
       finder.find(positions, uniqueFigureCombination)
     }
@@ -13,8 +13,8 @@ class CombinatorFinderSequential extends CombinationFinder {
   }
 }
 
-class CombinatorFinderOnFutures extends CombinationFinder {
-  def find[T](positions: List[(Int, Int)], figures: List[Figure])(finder: FigurePlacementFinder[T]): T = {
+class CombinationFinderOnFutures extends CombinationFinder {
+  def find[T](finder: FigurePlacementFinder[T])(positions: List[(Int, Int)], figures: List[Figure]): T = {
     import scala.concurrent.duration._
     import ExecutionContext.Implicits.global
     val result = PlacementsGenerator(figures).uniquePlacements.toSeq map { uniqueFigureCombination =>

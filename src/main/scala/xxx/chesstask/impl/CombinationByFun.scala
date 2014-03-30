@@ -6,7 +6,7 @@ import Position._
 import scala.Some
 import xxx.chesstask.Combination
 
-class CombinationByFunCheckOnly(
+class CombinationByFun(
   allowedPositionFun: CheckPosition = alwaysTrue,
   takenPositions: List[Position] = Nil
 ) extends Combination
@@ -16,7 +16,7 @@ class CombinationByFunCheckOnly(
   def place(fpos: Position, f: Figure): Option[Combination] =
     if (!allowedPositionFun(fpos) || (takenPositions exists threatenedPositionFunWithFallback(f, fpos))) None else {
       val newFun = safetyPositionFun(f, fpos) orElse allowedPositionFun
-      Some(new CombinationByFunCheckOnly(newFun, fpos :: takenPositions))
+      Some(new CombinationByFun(newFun, fpos :: takenPositions))
     }
 }
 

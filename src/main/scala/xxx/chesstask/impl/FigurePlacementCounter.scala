@@ -4,7 +4,7 @@ import xxx.chesstask.{Combination, FigurePlacementFinder}
 
 class FigurePlacementCounter extends FigurePlacementFinder[Long] {
 
-  def emptyCombination: Combination = new CombinationByFunCheckOnly()
+  def emptyCombination: Combination = new CombinationByFun()
 
   def fold(values: Seq[Long]): Long = values.sum
 

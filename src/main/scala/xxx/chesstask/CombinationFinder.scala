@@ -6,5 +6,5 @@ import Position._
 trait CombinationFinder {
 
   //TODO consider using SortedSet for positions here
-  def find[T](orderedPositions: List[Position], figureSet: List[Figure])(finder: FigurePlacementFinder[T]): T
+  def find[T](finder: FigurePlacementFinder[T])(orderedPositions: List[Position], figureSet: List[Figure]): T
 }
