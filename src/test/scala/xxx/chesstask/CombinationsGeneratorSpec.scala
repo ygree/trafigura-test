@@ -6,43 +6,20 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Await
 
 class CombinationsGeneratorSpec extends FlatSpec with Matchers {
-
   import Figure._
   import Position._
 
-  def countAllowedCombinations(availablePositions: List[Position], figures: List[Figure], combination: Combination = new CombinationOnFunCheckOnly()): Long = {
-    figures match {
-      case Nil => 1
-      case f :: restFigures =>
-        val result = for {
-          p <- availablePositions
-          newCombination <- combination.place(p, f)
-          newAvailablePosition = availablePositions dropWhile (_ < p)
-        //	      newAvailablePosition = availablePositions filter (p < _)
-        //	      _ = println("p>" + p)
-        //	      _ = println("a>" + newAvailablePosition.toSeq.sortWith(_ < _))
-        } yield countAllowedCombinations(newAvailablePosition, restFigures, newCombination)
-        result.sum
-    }
+  def countAllowedCombinations(availablePositions: List[Position], figures: List[Figure]): Long = {
+    new FigurePlacementCounter().find(availablePositions, figures)
   }
 
+
   def countAllAllowedDistinctCombinations(positions: List[Position], figures: List[Figure]): Long = {
-    val result = PlacementsGenerator(figures).uniquePlacements.toSeq map {
-      uniqueFigureCombination =>
-        countAllowedCombinations(positions, uniqueFigureCombination)
-    }
-    result.sum
+    new CombinatorFinderSequentialAll().count(positions, figures)(new FigurePlacementCounter)
   }
 
   def countAllAllowedDistinctCombinationsPar(positions: List[Position], figures: List[Figure]): Long = {
-    import scala.concurrent.duration._
-    import ExecutionContext.Implicits.global
-    val result = PlacementsGenerator(figures).uniquePlacements.toSeq map {
-      uniqueFigureCombination =>
-        Future(countAllowedCombinations(positions, uniqueFigureCombination))
-    }
-    val future = Future.sequence(result).map(_.sum)
-    Await.result(future, Duration.Inf)
+    new CombinatorFinderConcurrentAll().count(positions, figures)(new FigurePlacementCounter)
   }
 
   "Test generating combinations" should "" in {

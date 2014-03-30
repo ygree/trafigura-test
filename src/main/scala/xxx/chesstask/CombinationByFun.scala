@@ -1,23 +1,23 @@
 package xxx.chesstask
 
-import CombinationOnFun._
+import CombinationByFun._
 import Position._
 
-class CombinationOnFunCheckOnly(
+class CombinationByFunCheckOnly(
   allowedPositionFun: CheckPosition = alwaysTrue,
   takenPositions: List[Position] = Nil
 ) extends Combination
 {
-  import CombinationOnFun._
+  import CombinationByFun._
 
   def place(fpos: Position, f: Figure): Option[Combination] =
     if (!allowedPositionFun(fpos) || (takenPositions exists threatenedPositionFunWithFallback(f, fpos))) None else {
       val newFun = safetyPositionFun(f, fpos) orElse allowedPositionFun
-      Some(new CombinationOnFunCheckOnly(newFun, fpos :: takenPositions))
+      Some(new CombinationByFunCheckOnly(newFun, fpos :: takenPositions))
     }
 }
 
-object CombinationOnFun {
+object CombinationByFun {
 
   type CheckPosition = PartialFunction[Position, Boolean]
 
