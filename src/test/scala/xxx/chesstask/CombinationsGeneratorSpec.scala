@@ -11,8 +11,12 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
   import PlacementsGenerator._
   import Figure._
 
+  type Position = (Int, Int)
+  val ordering = implicitly[Ordering[Position]]
+  import ordering.mkOrderingOps
+
   def generateCoordinates(m: Int, n: Int): List[Position] =
-    for (i <- (0 until m).toList; j <- 0 until n) yield Position(i, j)
+    for (i <- (0 until m).toList; j <- 0 until n) yield (i, j)
 
   "Test generating coordinates" should "" in {
     val result = generateCoordinates(6, 9)
@@ -25,12 +29,12 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
   def kingThretens(fpos: Position) = {
     p: Position =>
-      (Math.abs(fpos.m - p.m) < 2) && (Math.abs(fpos.n - p.n) < 2)
+      (Math.abs(fpos._1 - p._1) < 2) && (Math.abs(fpos._2 - p._2) < 2)
   }
 
   def rookThretens(fpos: Position) = {
     p: Position =>
-      fpos.m == p.m || fpos.n == p.n
+      fpos._1 == p._1 || fpos._2 == p._2
   }
 
   def isThretensFun(f: Figure, fpos: Position) = f match {
@@ -114,31 +118,31 @@ class CombinationsGeneratorSpec extends FlatSpec with Matchers {
 
   "Test generating combinations" should "" in {
 
-    rookThretens(Position(0, 2))(Position(0, 0)) should be(true)
+    rookThretens((0, 2))((0, 0)) should be(true)
 
-    Combination().place(Position(0, 0), K).get.place(Position(0, 2), R) should be(None)
+    Combination().place((0, 0), K).get.place((0, 2), R) should be(None)
 
 
-    (Position(0, 0) < Position(1, 0)) should be(true)
-    (Position(0, 0) < Position(0, 1)) should be(true)
-    (Position(1, 0) < Position(0, 1)) should be(false)
-    (Position(1, 1) < Position(1, 0)) should be(false)
+    ((0, 0) < (1, 0)) should be(true)
+    ((0, 0) < (0, 1)) should be(true)
+    ((1, 0) < (0, 1)) should be(false)
+    ((1, 1) < (1, 0)) should be(false)
 
-    kingThretens(Position(0, 0))(Position(1, 2)) should be(false)
+    kingThretens((0, 0))((1, 2)) should be(false)
 
-    kingThretens(Position(1, 1))(Position(0, 0)) should be(true)
-    kingThretens(Position(1, 1))(Position(0, 1)) should be(true)
-    kingThretens(Position(1, 1))(Position(0, 2)) should be(true)
+    kingThretens((1, 1))((0, 0)) should be(true)
+    kingThretens((1, 1))((0, 1)) should be(true)
+    kingThretens((1, 1))((0, 2)) should be(true)
 
-    kingThretens(Position(1, 1))(Position(1, 0)) should be(true)
+    kingThretens((1, 1))((1, 0)) should be(true)
     //    kingThretens(Coords(1,1))(Coords(1,1)) should be (false)
-    kingThretens(Position(1, 1))(Position(1, 2)) should be(true)
+    kingThretens((1, 1))((1, 2)) should be(true)
 
-    kingThretens(Position(1, 1))(Position(2, 0)) should be(true)
-    kingThretens(Position(1, 1))(Position(2, 1)) should be(true)
-    kingThretens(Position(1, 1))(Position(2, 2)) should be(true)
+    kingThretens((1, 1))((2, 0)) should be(true)
+    kingThretens((1, 1))((2, 1)) should be(true)
+    kingThretens((1, 1))((2, 2)) should be(true)
 
-    kingThretens(Position(1, 1))(Position(1, 3)) should be(false)
+    kingThretens((1, 1))((1, 3)) should be(false)
 
     //    countAllowedCombinations(generateCoordinates(1, 1).toSet, Nil) should be (1)
     //    countAllowedCombinations(generateCoordinates(1, 1).toSet, List(K)) should be (1)
