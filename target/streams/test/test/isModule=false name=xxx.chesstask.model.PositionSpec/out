@@ -1,0 +1,5 @@
+[0m[[0minfo[0m] [0m[32mPositionSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mPositions[0m[0m
+[0m[[0minfo[0m] [0m[32m- should be able comparable[0m[0m
+[0m[[0minfo[0m] [0m[32mPosition[0m[0m
+[0m[[0minfo[0m] [0m[32m- should generate all possible unique ordered positions for specified capacity[0m[0m

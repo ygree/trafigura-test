@@ -1,0 +1,20 @@
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.model.PositionSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.CombinationFinderSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.model.FigureSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.impl.PlacementsGeneratorSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.model.PositionMapSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.impl.FigurePlacementCounterSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0mdebug[0m] [0mRunning TaskDef(xxx.chesstask.impl.CombinationSpec, org.scalatest.tools.Framework$$anon$1@101bad1c, false, [SuiteSelector])[0m
+[0m[[0minfo[0m] [0m[36mRun completed in 2 seconds, 308 milliseconds.[0m[0m
+[0m[[0minfo[0m] [0m[36mTotal number of tests run: 16[0m[0m
+[0m[[0minfo[0m] [0m[36mSuites: completed 7, aborted 0[0m[0m
+[0m[[0minfo[0m] [0m[36mTests: succeeded 16, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0minfo[0m] [0m[32mAll tests passed.[0m[0m
+[0m[[0mdebug[0m] [0mPassed tests:[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.model.PositionSpec[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.model.PositionMapSpec[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.model.FigureSpec[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.impl.CombinationSpec[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.CombinationFinderSpec[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.impl.PlacementsGeneratorSpec[0m
+[0m[[0mdebug[0m] [0m	xxx.chesstask.impl.FigurePlacementCounterSpec[0m

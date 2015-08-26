@@ -1,0 +1,11 @@
+#Successful Tests
+#Sun Mar 30 20:18:05 MSK 2014
+xxx.chesstask.model.PositionMapSpec=1396196284598
+xxx.chesstask.impl.CombinationSpec=1396196284616
+xxx.chesstask.model.FigureSpec=1396196283832
+xxx.chesstask.ExampleSpec=1396093653505
+xxx.chesstask.impl.PlacementsGeneratorSpec=1396196285271
+xxx.chesstask.CombinationFinderSpec=1396196284574
+xxx.chesstask.impl.FigurePlacementCounterSpec=1396196284607
+xxx.chesstask.model.PositionSpec=1396196283731
+xxx.chesstask.PlacementGeneratorSpec=1396100466719

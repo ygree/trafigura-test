@@ -1,0 +1,7 @@
+[0m[[0minfo[0m] [0m[32mPositionMapSpec:[0m[0m
+[0m[[0minfo[0m] [0m[32mPositionMap of one 'o' element[0m[0m
+[0m[[0minfo[0m] [0m[32m- should produce one safety position[0m[0m
+[0m[[0minfo[0m] [0m[32mPositionMap of one line[0m[0m
+[0m[[0minfo[0m] [0m[32m- should produce positions correctly[0m[0m
+[0m[[0minfo[0m] [0m[32mPositionMap of more than one line[0m[0m
+[0m[[0minfo[0m] [0m[32m- should produce positions correctly[0m[0m
